@@ -1,0 +1,271 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+<head>
+	<link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+	<#if .locale == "zh_CN">
+		<link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+	<#elseif .locale == "zh_TW">
+		<link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+	<#elseif .locale == "ja_JP">
+		<link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+	<#elseif .locale == "ko_KR">
+		<link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+	<#elseif .locale == "th_TH">
+		<link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+	</#if>
+    <macrolist>
+        <macro id="nlheader">
+                <table style="width: 100%; font-size: 10pt;"><tr line-height="10px">
+	<td rowspan="4" style="padding: 0; width: 40%;"><#if companyInformation.logoUrl?length != 0><img src="${companyInformation.logoUrl}" style="float: left; margin: 7px" /> </#if></td>
+	<td align="center" rowspan="4" style="padding: 0;width: 24%;">&nbsp;</td>
+	<td align="center" id="orderInfo" style="padding: 0;width: 10%;background-color: black; color: white;font-weight: bold;">ORDER NO.</td>
+	<td align="center" id="orderInfo" style="padding: 0;width: 10%;"><b>ORDER DATE</b></td>
+    <td align="center" id="orderInfo" style="padding: 0;width: 10%;"><b>ORD TYPE</b></td>
+	<td align="center" id="orderInfo" style="padding: 0;width: 10%;"><b>WSHE#</b></td>
+	</tr>
+	<tr line-height="10px">
+	<td align="center" id="orderInfo" style="padding: 0;width: 24%;">#${record.createdfrom}</td>
+	<td align="center" id="orderInfo" style="padding: 0;width: 24%;">${record.trandate}</td>
+    <td align="center" id="orderInfo" style="padding: 0;width: 24%;">&nbsp;</td>
+	<td align="center" id="orderInfo" style="padding: 0;width: 24%;">${record.location}</td>
+	</tr>
+	<tr line-height="10px">
+	<td align="center" id="orderInfo" style="padding: 0;width: 12%;"><b>CUST NO.</b></td>
+	<td align="center" id="orderInfo" style="padding: 0;width: 12%;"><b>SHIP DATE</b></td>
+	<td align="center"  id="orderInfo" style="padding: 0;width: 24%;"><b>SALES</b></td>
+    <td align="center"  id="orderInfo" style="padding: 0;width: 24%;"><b>PAGE</b></td>
+	</tr>
+	<tr line-height="10px">
+	<td align="center" id="orderInfo" style="padding: 0;width: 12%;">${record.entity}</td>
+	<td align="center" id="orderInfo" style="padding: 0;width: 12%;">${record.custbody_ship_date}</td>
+	<td align="center" id="orderInfo" style="padding: 0;width: 24%;">&nbsp;</td>
+      	<td align="center" id="orderInfo" style="padding: 0;width: 24%;"><pagenumber/></td>
+	</tr>
+	<tr line-height="14px">
+	<td rowspan="2" style="padding: 0; width: 40%; font-size: 8pt;"><b>Telephone: 404-351-6130<br />Fax: 404-367-4222</b></td>
+	<td align="center" style="padding: 0;width: 24%;">&nbsp;</td>
+	<td align="center" colspan="2" id="orderInfo" style="padding: 0;width: 24%;"><b>ATTN</b></td>
+	<td align="center" id="orderInfo" colspan="2" style="padding: 0;width: 24%;"><b>ENTERED BY</b></td>
+	</tr>
+	<tr line-height="10px">
+	<td align="left" rowspan="3" style="padding: 0;width: 24%;"><barcode codetype="code128" showtext="false" height="40" width="100" margin="0" padding="0" value="${record.tranid}"/></td>
+	<td align="center" id="orderInfo" colspan="2" style="padding: 0;width: 24%;">&nbsp;</td>
+	<td align="center" id="orderInfo" colspan="2" style="padding: 0;width: 24%;">${record.createdby}</td>
+	</tr>
+	<tr line-height="10px">
+	<td rowspan="3" align="center" style="width: 36%; font-size: 13pt;background-color: black; color: white; vertical-align: middle;font-weight: bold;">DELIVERY RECEIPT</td>
+	<td align="center" colspan="5" style="width: 24%;"><b>SHIPPING TERMS: ${record.shipmethod}</b></td>
+	</tr>
+	</table>
+        </macro>
+        <macro id="nlfooter">
+            	<#assign totalShipped = 0>
+            <#if record.item?has_content>
+              <#list record.item as item>
+              <#assign totalShipped += item.quantity></#list>
+              </#if>
+              <table id="subtotalTable" style="overflow: hidden;left: 0pt;height: 0.25in;width: 100%;font-weight: 900;">
+<tr>
+	<td style="width: 110px;background-color: #e3e3e3"><b>TOTAL PIECES SHIPPED</b></td>
+	<td align="right" style ="width: 47.5px; ">${totalShipped}</td>
+  <td align="center"  style="border: 0pt; width: 250px; font-size:6pt; padding:0px"> AGREEMENT OF SALE</td>
+	<td align="left" rowspan="2" style="font-weight: bold; color: rgb(51, 51, 51);background-color: #e3e3e3; width: 50px">SUBTOTAL<br />FREIGHT<br />MISC<br />TAX</td>
+	<td align="right" rowspan="2" style="width: 50px;">${record.subtotal}<br /><br /><br />${record.taxtotal}</td>
+	</tr>
+	<tr>
+	<td colspan="1" style="width: 74px;background-color: #e3e3e3"><b>TOTAL WEIGHT</b></td>
+	<td colspan="1" align="center" style="width: 47.5px; ">&nbsp;</td>
+   <td rowspan="3" align="left" style="border: 0pt;  font-size:6pt; padding-top:0pt">THE ABOVE MERCHANDISE HAS BEEN CAREFULLY CHECKED, BE SURE ANY SHORTAGES OR DISCREPANCIES ARE NOTED ON THE DELIVERY RECEIPT AND SIGNED BY OUR DRIVER. NO EXCEPTIONS WILL BE ALLOWED AFTER DRIVER HAS LEFT. ALL RETURNS REQUIRE OFFICE APPROVAL AND WILL NOT BE ACCEPTED AFTER 30 DAYS.</td>
+                </tr>
+	<tr>
+	<td colspan="1" style="background-color: #e3e3e3"><b>TOTAL CUBE</b></td>
+	<td colspan="1"  align="right" style="width: 77.5px;">${record.total}</td>
+      	<td colspan="1" style="background-color: #e3e3e3"><b>ORDER TOTAL</b></td>
+      	<td colspan="1"  align="right" style="width: 77.5px;">${record.total}</td>
+	</tr>
+</table>
+              <table align="center" style="width:50%; margin-top:20px">
+                <tr><td style="border-bottom: 1pt;padding-bottom:0pt; width: 100px">X</td>
+                  <td style="border-bottom: 1pt; padding-bottom:0pt; margin-left: 10px; width: 80px">&nbsp;</td>
+                </tr>
+                 <tr><td style="padding-top:0pt; width: 100px">Customer Signature</td>
+                  <td style="padding-top:0pt;width: 80px">Date Received</td>
+                </tr>
+                 <tr><td style="border-bottom: 1pt;padding-bottom:0pt; width: 100px">X</td>
+                  <td style="padding-bottom:0pt;width: 80px">&nbsp;</td>
+                </tr>
+                 <tr><td style="padding-top:0pt; width: 100px">Print Name</td>
+                  <td style="padding-top:0pt; 1pt; width: 80px">&nbsp;</td>
+                </tr>
+              </table>
+        </macro>
+    </macrolist>
+    <style type="text/css">* {
+		<#if .locale == "zh_CN">
+			font-family: NotoSans, NotoSansCJKsc, sans-serif;
+		<#elseif .locale == "zh_TW">
+			font-family: NotoSans, NotoSansCJKtc, sans-serif;
+		<#elseif .locale == "ja_JP">
+			font-family: NotoSans, NotoSansCJKjp, sans-serif;
+		<#elseif .locale == "ko_KR">
+			font-family: NotoSans, NotoSansCJKkr, sans-serif;
+		<#elseif .locale == "th_TH">
+			font-family: NotoSans, NotoSansThai, sans-serif;
+		<#else>
+			font-family: NotoSans, sans-serif;
+		</#if>
+		}
+		table {
+			font-size: 9pt;
+			table-layout: fixed;
+		}
+		th {
+			font-weight: bold;
+			font-size: 8pt;
+			vertical-align: middle;
+            padding: 5px 6px 3px;
+            background-color: #e3e3e3;
+			color: #333333;
+		}
+		td {
+            padding: 4px 6px;
+        }
+		td p { align:left }
+		b {
+			font-weight: bold;
+			color: #333333;
+		}
+            
+      #orderInfo {
+			border-style: solid;
+        border-width: 1px;
+        font-size: 9pt;
+        vertical-align: middle;
+      }
+      #subtotalTable td{
+        border-style: solid;
+        border-width: 1px;
+        line-height: 10px;
+        padding-top:0px
+        padding-bottom:0px
+      }
+      #subtotalTable tr{
+       line-height: 5px;
+
+      }
+		table.header td {
+			padding: 0;
+			font-size: 10pt;
+		}
+		table.footer td {
+			padding: 0;
+			font-size: 8pt;
+		}
+		table.itemtable th {
+			padding-bottom: 5px;
+			padding-top: 5px;
+          	padding-left: 0px;
+			padding-right: 0px;
+            border: 0.5pt;
+		}
+      table.itemtable td {
+            border-right: 0.5pt;
+            border-left: 0.5pt;
+		}
+		table.body td {
+			padding-top: 2px;
+          border: 0.5pt;
+		}
+		td.addressheader {
+			font-size: 8pt;
+			padding-top: 6px;
+			padding-bottom: 2px;
+		}
+		td.address {
+			padding-top: 0;
+		}
+		span.title {
+			font-size: 28pt;
+		}
+		span.number {
+			font-size: 16pt;
+		}
+		span.itemname {
+			font-weight: bold;
+			line-height: 150%;
+		}
+		hr {
+			width: 100%;
+			color: #d3d3d3;
+			background-color: #d3d3d3;
+			height: 1px;
+		}
+</style>
+</head>
+<body header="nlheader" header-height="13%" footer="nlfooter" footer-height="100pt" padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+	<table style="width: 100%; margin-top: 10px;"><tr>
+	<td align="center" colspan="1" style="border-style: solid;border-width: 1px;font-size: 8pt; padding: 6px 0 2px; font-weight: bold; color: #333333;background-color: #e3e3e3 ">S<br/>O<br/>L<br/>D<br/><br/> T<br/>O</td>
+            <td colspan="3" style="padding: 0;"></td>
+
+      <td colspan="15" style="padding: 0;">${record.billaddress}</td>
+	<td colspan="1" align="center"  style="border-style: solid;border-width: 1px; font-size: 8pt; padding: 6px 0 2px; font-weight: bold; color: #333333;background-color: #e3e3e3">S<br/>H<br/>I<br/>P<br/><br/> T<br/>O</td>
+      	            <td colspan="3" style="padding: 0;"></td>
+      <td colspan="15" style="padding: 0;">${record.shipaddress}<br/> PHONE#: </td>
+
+	</tr>
+	</table>
+
+<table class="itemtable"  style="width: 100%; margin-top: 10px;border: 0.5pt"><tr>
+	<th align="center" style="width: 200px">DELIVERY INSTRUCTIONS</th>
+	<th align="center" style="width: 20px">ZONE</th>
+	<th align="center" style="width: 20px">TRUCK</th>
+	<th align="center" style="width: 20px">STOP</th>
+	<th align="center" style="width: 80px">SHIP VIA</th>
+  	<th align="center" style="width: 100px">CUSTOMER P.O.</th>
+  	<th align="center" style="width: 100px">TERMS</th>
+	</tr>
+	<tr>
+	<td style="padding-top: 2px;">${record.memo}</td>
+	<td style="padding-top: 2px;">&nbsp;</td>
+	<td style="padding-top: 2px;">&nbsp;</td>
+	<td style="padding-top: 2px;">${record.shipmethod}</td>
+	<td style="padding-top: 2px;">${record.terms}</td>	
+     <td style="padding-top: 2px;">${record.otherrefnum}</td>
+	<td style="padding-top: 2px;">${record.terms}</td>
+	</tr></table>
+<#if record.item?has_content>
+
+<table class="itemtable" style="width: 100%; margin-top: 0px; border:0.5pt"><!-- start items --><#list record.item as item><#if item_index==0>
+<thead>
+	<tr>
+      <th style="width: 10px">LINE</th>
+       <th align="center" style="width: 5px">H<br/>M</th>
+	<th align="center" style="width: 80px">PRODUCT CODE</th>
+	<th align="center" style="width: 40px">QUANTITY<br/>ORDERED</th>
+	<th align="center" style="width: 40px">QUANTITY<br/>SHIPPED</th>
+	<th align="center" style="width: 40px">BACK<br/> ORDERED</th>
+	<th align="center" style="width: 30px">UNIT</th>
+      <th align="center" style="width: 120px">DESCRIPTION</th>
+	<th align="center" style="width: 30px">UNIT<br/> PRICE</th>
+	<th align="center" style="width: 20px">U/M</th>
+	<th align="center" style="width: 5px">T<br/>X</th>
+	<th align="center" style="width: 40px">EXTENDED<br/> AMOUNT</th>
+	</tr>
+</thead>
+</#if><tr>
+  <td>${item_index + 1}</td>
+  <td>&nbsp;</td>
+	<td><span class="itemname">${item.item}</span></td>
+	<td>&nbsp;</td>
+	<td>${item.quantity}</td>
+	<td>&nbsp;</td>
+	<td>${item.units}</td>
+  	<td>${item.description}</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	<td>&nbsp;</td>
+	</tr>
+	</#list><!-- end items --></table>
+</#if>
+</body>
+</pdf>
